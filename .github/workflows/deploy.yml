@@ -17,8 +17,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Run Ansible playbook
+      - name: Create the .vault_pass file
         env:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASS }}
         run: |
-          ansible-playbook -i provisioning/environments/prod/ --vault-password-file $VAULT_PASSWORD_FILE  provisioning/playbook.yml
+          touch .vault_pass
+          echo $VAULT_PASSWORD_FILE >> .vault_pass
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i provisioning/environments/prod/ --vault-password-file .vault_pass  provisioning/playbook.yml
