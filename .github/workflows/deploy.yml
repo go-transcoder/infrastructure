@@ -21,4 +21,4 @@ jobs:
         env:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASS }}
         run: |
-          ansible-playbook -i provisioning/environments/prod/ --vault-password-file="$VAULT_PASSWORD_FILE"  provisioning/playbook.yml
+          ansible-playbook -i provisioning/environments/prod/ --vault-password-file $VAULT_PASSWORD_FILE  provisioning/playbook.yml
