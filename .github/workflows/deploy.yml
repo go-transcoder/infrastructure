@@ -26,4 +26,5 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
+          cat .vault_pass
           ansible-playbook -i provisioning/environments/prod/ --vault-password-file .vault_pass  provisioning/playbook.yml
