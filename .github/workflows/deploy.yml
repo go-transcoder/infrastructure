@@ -20,9 +20,10 @@ jobs:
       - name: Run Ansible playbook
         env:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASS }}
+          COUSA: cousa
         run: |
           touch .vault_pass
-          echo $VAULT_PASSWORD_FILE >> .vault_pass
+          echo $COUSA >> .vault_pass
 
           cat .vault_pass
           ansible-playbook -i provisioning/environments/prod/ --vault-password-file .vault_pass  provisioning/playbook.yml
