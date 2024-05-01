@@ -6,4 +6,4 @@ venv_executable: "{{ venv_path }}/bin/python"
 
 
 postgresql:
-  main_db_name: "default_db"
+  main_db_name: "postgres"
