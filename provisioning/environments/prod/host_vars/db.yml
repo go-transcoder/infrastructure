@@ -38,7 +38,7 @@ postgresql_privs:
     login_user: "{{vault.postgres.master_username}}"
 
   - user: transcode_db
-    main_db: transcoder_db
+    main_db: transcode_db
     objs: ALL_IN_SCHEMA
     login_host: "{{vault.postgres.url}}"
     login_password: "{{vault.postgres.master_password}}"
