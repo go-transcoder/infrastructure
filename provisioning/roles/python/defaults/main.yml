@@ -1,0 +1,6 @@
+---
+
+python_command: python3
+requirements_path: "{{ user_home_path }}/ansible_files"
+
+system_package: []

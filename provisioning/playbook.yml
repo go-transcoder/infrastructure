@@ -1,0 +1,11 @@
+---
+
+- name: db
+  hosts: db
+  roles:
+    - role: python
+      tags: [ 'python' ]
+
+    - role: postgresql
+      tags: [ 'postgresql' ]
+
