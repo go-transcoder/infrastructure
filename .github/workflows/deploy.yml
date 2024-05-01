@@ -1,0 +1,24 @@
+
+name: deploy
+run-name: provision the infrastructure
+on:
+  push:
+    branches:
+      - main
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Run Ansible playbook
+        env:
+          VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASS }}
+        run: |
+          ansible-playbook -i provisioning/environments/prod/ --vault-password-file="$VAULT_PASSWORD_FILE"  provisioning/playbook.yml
