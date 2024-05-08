@@ -51,4 +51,4 @@ jobs:
           vault_password: ${{env.VAULT_PASS}}
           options: |
             --inventory provisioning/environments/prod/
-            --extra-vars "vault.postgres.master_password=${{env.MAIN_DB_PASS}}"
+            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}}"

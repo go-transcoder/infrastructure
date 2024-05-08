@@ -1,8 +1,4 @@
 # postgresql
-main_db_user: "{{vault.postgres.master_username}}"
-main_db_pass: "{{vault.postgres.master_password}}"
-main_db_name: postgres
-db_host: "{{vault.postgres.url}}"
 
 postgresql_databases:
   - name: main_db
