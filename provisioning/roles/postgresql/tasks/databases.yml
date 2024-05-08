@@ -21,3 +21,15 @@
     ansible_ssh_pipelining: true
     ansible_python_interpreter: "{{ venv_executable }}"
 
+
+- name: Add the uuid-ossp extension
+  community.postgresql.postgresql_query:
+    login_host: "{{ item.login_host | default('localhost') }}"
+    login_password: "{{ item.login_password | default(omit) }}"
+    login_user: "{{ item.login_user }}"
+    db: "{{ item.name }}"
+    query: 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+  with_items: "{{ postgresql_databases }}"
+  vars:
+    ansible_ssh_pipelining: true
+    ansible_python_interpreter: "{{ venv_executable }}"

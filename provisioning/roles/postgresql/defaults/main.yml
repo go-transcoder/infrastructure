@@ -7,7 +7,7 @@ postgresql_auth_method: "{{ ansible_fips  | ternary('scram-sha-256', 'md5') }}"
 
 postgresql_main_db: postgres
 
-postgres_users_no_log: true
+postgres_users_no_log: false
 
 postgresql_databases: []
 # - name: exampledb # required; the rest are optional
