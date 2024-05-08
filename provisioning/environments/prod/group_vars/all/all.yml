@@ -7,6 +7,6 @@ venv_executable: "{{ venv_path }}/bin/python"
 
 # db
 main_db_user: "{{vault.postgres.master_username}}"
-main_db_pass: "{{vault.postgres.master_password}}"
+main_db_pass: "dynamically_set_in_ci"
 main_db_name: postgres
 db_host: "{{vault.postgres.url}}"

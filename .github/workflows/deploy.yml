@@ -36,7 +36,6 @@ jobs:
             SSH_PRIVATE_KEY, PIVOT_KEY
             VAULT_PASS
             MAIN_DB_PASS
-            
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
