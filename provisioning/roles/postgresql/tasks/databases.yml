@@ -6,9 +6,9 @@
     lc_ctype: "{{ item.lc_ctype | default('en_US.UTF-8') }}"
     encoding: "{{ item.encoding | default('UTF-8') }}"
     template: "{{ item.template | default('template0') }}"
-    login_host: "{{ item.login_host | default('localhost') }}"
-    login_password: "{{ item.login_password | default(omit) }}"
-    login_user: "{{ item.login_user }}"
+    login_host: "{{ db_host }}"
+    login_user: "{{ main_db_user }}"
+    login_password: "{{ main_db_pass }}"
     login_unix_socket: "{{ item.login_unix_socket | default(postgresql_unix_socket_directories[0]) }}"
     port: "{{ item.port | default(omit) }}"
     state: "{{ item.state | default('present') }}"
@@ -24,9 +24,9 @@
 
 - name: Add the uuid-ossp extension
   community.postgresql.postgresql_query:
-    login_host: "{{ item.login_host | default('localhost') }}"
-    login_password: "{{ item.login_password | default(omit) }}"
-    login_user: "{{ item.login_user }}"
+    login_host: "{{ db_host }}"
+    login_user: "{{ main_db_user }}"
+    login_password: "{{ main_db_pass }}"
     db: "{{ item.name }}"
     query: 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
   with_items: "{{ postgresql_databases }}"

@@ -3,7 +3,3 @@ env: prod
 user_home_path: "/home/{{ ansible_user }}"
 venv_path: "{{ user_home_path }}/ansible_env"
 venv_executable: "{{ venv_path }}/bin/python"
-
-
-postgresql:
-  main_db_name: "postgres"
