@@ -1,5 +1,5 @@
 ---
 
 kafka_topics:
-  - name: video_transcode_status
+  - name: video-transcode-status
     partitions_nb: 1
