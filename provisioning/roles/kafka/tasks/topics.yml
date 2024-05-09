@@ -15,5 +15,6 @@
       - --topic
       - "{{ item.name }}"
   loop: "{{ kafka_topics }}"
+  ignore_errors: true
 
 
