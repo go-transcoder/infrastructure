@@ -1,0 +1,19 @@
+---
+
+# command
+# <path-to-your-kafka-installation>/bin/kafka-topics.sh --create --bootstrap-server BootstrapServerString --command-config client.properties --replication-factor 3 --partitions 1 --topic MSKTutorialTopic
+
+- name: Create Topics
+  command:
+    argv:
+      - "{{ kafka_topics_sh }}"
+      - --create
+      - --bootstrap-server
+      - "{{ kafka_bootstrap_server_string }}"
+      - --partitions
+      - "{{ item.partitions_nb }}"
+      - --topic
+      - "{{ item.name }}"
+  loop: "{{ kafka_topics }}"
+
+

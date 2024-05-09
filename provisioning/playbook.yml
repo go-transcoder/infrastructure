@@ -1,7 +1,7 @@
 ---
 
-- name: db
-  hosts: db
+- name: all
+  hosts: all
   roles:
     - role: python
       tags: [ 'python' ]
@@ -9,3 +9,5 @@
     - role: postgresql
       tags: [ 'postgresql' ]
 
+    - role: kafka
+      tags: [ 'kafka' ]

@@ -1,0 +1,13 @@
+---
+
+kafka_java_version: 11
+kafka_version: 3.4.0
+
+kafka_pkg: "kafka_2.13-{{kafka_version}}"
+kafka_installation_path: /usr/local/bin
+kafka_bin_path: "{{ kafka_installation_path }}/{{ kafka_pkg }}/bin"
+
+kafka_topics_sh: "{{ kafka_bin_path }}/kafka-topics.sh"
+kafka_command_config: "{{ kafka_bin_path }}/client.properties"
+
+kafka_topics: []

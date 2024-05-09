@@ -10,3 +10,8 @@ main_db_user: "{{vault.postgres.master_username}}"
 main_db_pass: "dynamically_set_in_ci"
 main_db_name: postgres
 db_host: "{{vault.postgres.url}}"
+
+
+# kafka endpoints seperated by comma, needs to be set in CI.
+# !important Put here to be overridden by the ansible command option -e
+kafka_bootstrap_server_string: "dynamically_set_in_ci"

@@ -36,6 +36,7 @@ jobs:
             SSH_PRIVATE_KEY, PIVOT_KEY
             VAULT_PASS
             MAIN_DB_PASS
+            KAFKA_BOOTSTRAP_STRING
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -50,4 +51,4 @@ jobs:
           vault_password: ${{env.VAULT_PASS}}
           options: |
             --inventory provisioning/environments/prod/
-            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}}"
+            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}} kafka_bootstrap_server_string=${{KAFKA_BOOTSTRAP_STRING}}"
