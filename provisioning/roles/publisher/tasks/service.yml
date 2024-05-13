@@ -1,0 +1,37 @@
+---
+
+- name: Set task_definition variable
+  set_fact:
+    task_definition: "{{ publisher_service.task_definition }}"
+
+# create the task definition
+- name: Create the task definition
+  community.aws.ecs_taskdefinition:
+    family: "{{ task_definition.family }}"
+    launch_type: "{{ task_definition.launch_type }}"
+    network_mode: "awsvpc"
+    execution_role_arn: "{{ task_definition.execution_role_arn }}"
+    task_role_arn: "{{ task_definition.task_role_arn }}"
+    cpu: "{{ task_definition.cpu }}"
+    memory: "{{ task_definition.memory }}"
+    containers: "{{ task_definition.containers }}"
+  register: task_output
+
+- name: Print details Task name and revision
+  debug:
+    msg: "{{  task_output.taskdefinition[\"family\"]   }}:{{ task_output.taskdefinition[\"revision\"] }}"
+
+# Create the service and assign the task definition to it
+- name: Create the ecs service
+  community.aws.ecs_service:
+    state: present
+    name: publisher-service
+    cluster: "{{ publisher_service.cluster }}"
+    task_definition: "{{  task_output.taskdefinition[\"family\"]   }}:{{ task_output.taskdefinition[\"revision\"] }}"
+    desired_count: 1
+    network_configuration:
+      subnets: "{{ publisher_service.subnets }}"
+      security_groups: "{{ publisher_service.security_groups }}"
+    load_balancers: "{{ publisher_service.load_balancers }}"
+  register: service_output
+

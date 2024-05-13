@@ -1,0 +1,53 @@
+---
+publisher_service:
+  cluster: "{{ tf_ecs_cluster }}"
+  desired_count: 1
+  subnets: "{{ tf_private_subnets }}"
+  security_groups:
+    - "{{ tf_ecs_security_group_id }}"
+  load_balancers:
+    - targetGroupArn: "{{ tf_publisher_load_balancer_target_group_arn }}"
+      containerName: ours-main
+      containerPort: 4000
+  task_definition:
+    family: "ours-publisher"
+    launch_type: "FARGATE"
+    network_mode: "awsvpc"
+    execution_role_arn: "{{ tf_publisher_execution_role_arn }}"
+    task_role_arn: "{{ tf_publisher_task_role_arn }}"
+    cpu: 1024 # default
+    memory: 4096 # 4 GB default
+    containers:
+      - name: ours-main
+        essential: true
+        image: "{{ tf_publisher_docker_image_url }}"
+        environment:
+          - name: "DBNAME"
+            value: "main_db"
+
+          - name: "DBPASS"
+            value: "{{ lookup('amazon.aws.aws_secret', 'UPLOADER_DB_PASS', bypath=true) }}"
+
+          - name: "DBUSER"
+            value: "main_user"
+
+          - name: "DBHOST"
+            value: "{{ tf_aurora_db_host }}"
+
+          - name: "DBPORT"
+            value: 5432
+
+          - name: "INPUT_S3_BUCKET"
+            value: "{{ tf_input_s3_bucket }}"
+
+          - name: "KAFKAHOST"
+            value: "{{ tf_kafka_brokers_urls }}"
+
+          - name: "KAFKATOPIC"
+            value: "video-transcode-status"
+
+          - name: "PORT"
+            value: "4000"
+        portMappings:
+          - containerPort: 4000
+            hostPort: 4000

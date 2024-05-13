@@ -1,0 +1,17 @@
+---
+
+# This file should be exported by tf infrastructure file
+tf_private_subnets: []
+tf_ecs_security_group_id: ""
+
+tf_aurora_db_host: "db_host"
+
+tf_input_s3_bucket: "input_s3_bucket"
+
+tf_kafka_brokers_urls: "comma_seperated_kafka_brokers"
+
+tf_ecs_cluster: "ecs_cluster"
+
+tf_publisher_load_balancer_target_group_arn: "load_balancer_target_group_arn"
+tf_publisher_execution_role_arn: "publisher_execution_role_arn"
+tf_publisher_task_role_arn: "publisher_task_role_arn"

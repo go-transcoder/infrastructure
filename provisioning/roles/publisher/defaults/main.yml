@@ -1,0 +1,15 @@
+publisher_service:
+  subnets: []
+  security_groups: []
+  load_balancer_target_group_arn: load_balancer_target_group_arn
+  task_definition:
+    launch_type: "FARGATE"
+    network_mode: "awsvpc"
+    execution_role_arn: "execution_role_arn"
+    task_role_arn: "task_role_arn"
+    cpu: 1024 # default
+    memory: 4096 # 4 GB default
+    containers:
+      - name: app
+        essential: true
+        image:

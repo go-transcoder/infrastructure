@@ -8,47 +8,87 @@ on:
 env:
   REGION: us-east-1
 
+
+# TODO: move the following jobs to a workflow that runs when triggered from another project
 jobs:
 
-  deploy:
+  test:
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      # login to aws to get secrets
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+      - name: Getting the artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v3
         with:
-          role-to-assume: ${{ secrets.ROLEARN }}
-          aws-region: ${{ env.REGION }}
+          # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+          # Required, if the artifact is from a different repo
+          # Required, if the repo is private a Personal Access Token with `repo` scope is needed or GitHub token in a job where the permissions `action` scope set to `read`
+#          github_token: ${{secrets.GITHUB_TOKEN}}
+          # Optional, workflow file name or ID
+          # If not specified, will be inferred from run_id (if run_id is specified), or will be the current workflow
+          workflow: deploy.yml
+          # If no workflow is set and workflow_search set to true, then the most recent workflow matching
+          # all other criteria will be looked up instead of using the current workflow
+          workflow_search: false
+          # Optional, the status or conclusion of a completed workflow to search for
+          # Can be one of a workflow conclusion:
+          #   "failure", "success", "neutral", "cancelled", "skipped", "timed_out", "action_required"
+          # Or a workflow status:
+          #   "completed", "in_progress", "queued"
+          # Use the empty string ("") to ignore status or conclusion in the search
+          workflow_conclusion: success
+          # Optional, will use the specified branch. Defaults to all branches
+          branch: main
+          name: tf_ansible_vars_file
+          # Optional, choose how to exit the action if no artifact is found
+          # can be one of:
+          #  "fail", "warn", "ignore"
+          # default fail
+          if_no_artifact_found: fail
+          # Optional, ignore forks when searching for artifacts
+          # default true
+          allow_forks: false
 
-      # Get the private key from secret manager
-      - name: Step name
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            SSH_PRIVATE_KEY, PIVOT_KEY
-            VAULT_PASS
-            MAIN_DB_PASS
-            KAFKA_BOOTSTRAP_STRING
-
-      - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          # Required, playbook filepath
-          playbook: provisioning/playbook.yml
-          # Optional, directory where playbooks live
-          directory: ./
-          # Optional, SSH private key
-          key: ${{env.SSH_PRIVATE_KEY}}
-          # Optional, encrypted vault password
-          vault_password: ${{env.VAULT_PASS}}
-          options: |
-            --inventory provisioning/environments/prod/
-            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}} kafka_bootstrap_server_string=${{env.KAFKA_BOOTSTRAP_STRING}}"
+#jobs:
+#
+#  deploy:
+#    runs-on: ubuntu-latest
+#
+#    permissions:
+#      id-token: write
+#      contents: read
+#
+#    steps:
+#      - name: Checkout repo
+#        uses: actions/checkout@v4
+#
+#      # login to aws to get secrets
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+#        with:
+#          role-to-assume: ${{ secrets.ROLEARN }}
+#          aws-region: ${{ env.REGION }}
+#
+#      # Get the private key from secret manager
+#      - name: Step name
+#        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+#        with:
+#          secret-ids: |
+#            SSH_PRIVATE_KEY, PIVOT_KEY
+#            VAULT_PASS
+#            MAIN_DB_PASS
+#            KAFKA_BOOTSTRAP_STRING
+#
+#      - name: Run playbook
+#        uses: dawidd6/action-ansible-playbook@v2
+#        with:
+#          # Required, playbook filepath
+#          playbook: provisioning/playbook.yml
+#          # Optional, directory where playbooks live
+#          directory: ./
+#          # Optional, SSH private key
+#          key: ${{env.SSH_PRIVATE_KEY}}
+#          # Optional, encrypted vault password
+#          vault_password: ${{env.VAULT_PASS}}
+#          options: |
+#            --inventory provisioning/environments/prod/
+#            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}} kafka_bootstrap_server_string=${{env.KAFKA_BOOTSTRAP_STRING}}"

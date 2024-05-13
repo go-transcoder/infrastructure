@@ -1,31 +1,31 @@
 ---
 
-## Install Java
-#- name: "Install Java, version: {{kafka_java_version}}"
-#  ansible.builtin.yum:
-#    name: "java-{{kafka_java_version}}"
-#    state: present
-#  become: true
-#
-## Download the tar file
-#- name: "Download kafka tar file, version: {{kafka_version}}"
-#  get_url:
-#    url: "https://archive.apache.org/dist/kafka/{{kafka_version}}/{{ kafka_pkg }}.tgz"
-#    dest: "/tmp"
-#
-#- name: "Extract the .tgz file"
-#  ansible.builtin.unarchive:
-#    src: "/tmp/{{ kafka_pkg }}.tgz"
-#    dest: "{{kafka_installation_path}}"
-#    remote_src: yes
-#  become: true
-#
-## Download the tar file
-#- name: "Download the Amazon MSK IAM JAR file"
-#  get_url:
-#    url: "https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.1/aws-msk-iam-auth-1.1.1-all.jar"
-#    dest: "{{kafka_installation_path}}/{{ kafka_pkg }}/libs"
-#  become: true
+# Install Java
+- name: "Install Java, version: {{kafka_java_version}}"
+  ansible.builtin.yum:
+    name: "java-{{kafka_java_version}}"
+    state: present
+  become: true
+
+# Download the tar file
+- name: "Download kafka tar file, version: {{kafka_version}}"
+  get_url:
+    url: "https://archive.apache.org/dist/kafka/{{kafka_version}}/{{ kafka_pkg }}.tgz"
+    dest: "/tmp"
+
+- name: "Extract the .tgz file"
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ kafka_pkg }}.tgz"
+    dest: "{{kafka_installation_path}}"
+    remote_src: yes
+  become: true
+
+# Download the tar file
+- name: "Download the Amazon MSK IAM JAR file"
+  get_url:
+    url: "https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.1/aws-msk-iam-auth-1.1.1-all.jar"
+    dest: "{{kafka_installation_path}}/{{ kafka_pkg }}/libs"
+  become: true
 
 # Add the client properties
 - name: Add the client properties

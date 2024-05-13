@@ -15,3 +15,7 @@ db_host: "{{vault.postgres.url}}"
 # kafka endpoints seperated by comma, needs to be set in CI.
 # !important Put here to be overridden by the ansible command option -e
 kafka_bootstrap_server_string: "dynamically_set_in_ci"
+
+
+## this to be added dynamically from CI
+publisher_docker_image_url: "to-be-set-after-image-build"

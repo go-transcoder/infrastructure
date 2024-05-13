@@ -11,3 +11,6 @@
 
     - role: kafka
       tags: [ 'kafka' ]
+
+    - role: publisher
+      tags: [ 'never', 'publisher' ]

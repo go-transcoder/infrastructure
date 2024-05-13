@@ -1,0 +1,4 @@
+---
+
+# loop the services, to create the task definition and create the service
+- include_tasks: "service.yml"
