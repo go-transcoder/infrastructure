@@ -1,13 +1,21 @@
 name: triggered
 run-name: triggered from another workflow
 on:
-  repository_dispatch:
-    types: [ trigger-workflow ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'String specifying the ansible tags to run seperated by comma'
+        required: true
+
 
 jobs:
   run-playbook:
     runs-on: ubuntu-latest
     steps:
+      - name: debug the input passed to the workflow from api
+        run: |
+          echo "${{ inputs.tags }}"
+
       - name: Getting the artifact
         id: download-artifact
         uses: dawidd6/action-download-artifact@v3
