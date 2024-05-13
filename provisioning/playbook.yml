@@ -2,6 +2,8 @@
 
 - name: all
   hosts: all
+  vars_files:
+    - environments/tf_generated_vars.yml
   roles:
     - role: python
       tags: [ 'python' ]
