@@ -41,6 +41,10 @@ jobs:
           allow_forks: false
           path: ./provisioning/environments
 
+      - name: Debugging the artifact
+        run: |
+          cat ./provisioning/environments/tf_ansible_vars_file.yml
+
       # login to aws to get secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
@@ -85,4 +89,4 @@ jobs:
           PLAYBOOK_TAGS: ${{inputs.tags}}
           PUBLISHER_IMAGE: ${{inputs.publisher_image}}
         run: |
-          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
+          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t "$PLAYBOOK_TAGS" --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
