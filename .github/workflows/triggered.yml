@@ -7,7 +7,6 @@ on:
         description: 'String specifying the ansible tags to run seperated by comma'
         required: true
 
-
 jobs:
   run-playbook:
     runs-on: ubuntu-latest
@@ -29,3 +28,6 @@ jobs:
           if_no_artifact_found: fail
           allow_forks: false
           path: ./provisioning/environments/tf_generated_vars.yml
+
+      # here deploy
+      # install the community.aws collection ansible-galaxy collection install community.aws

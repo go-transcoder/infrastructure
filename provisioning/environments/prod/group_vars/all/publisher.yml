@@ -1,4 +1,5 @@
 ---
+
 publisher_service:
   cluster: "{{ tf_ecs_cluster }}"
   desired_count: 1
@@ -17,16 +18,23 @@ publisher_service:
     task_role_arn: "{{ tf_publisher_task_role_arn }}"
     cpu: 1024 # default
     memory: 4096 # 4 GB default
+
     containers:
       - name: ours-main
         essential: true
-        image: "{{ tf_publisher_docker_image_url }}"
+        image: "{{ publisher_docker_image_url }}"
+        logConfiguration:
+          logDriver: awslogs
+          options:
+            awslogs-region: "{{ aws_region }}"
+            awslogs-group: "{{ tf_ecs_log_group }}"
+            awslogs-stream-prefix: "publisher_service"
         environment:
           - name: "DBNAME"
             value: "main_db"
 
           - name: "DBPASS"
-            value: "{{ lookup('amazon.aws.aws_secret', 'UPLOADER_DB_PASS', bypath=true) }}"
+            value: "{{ lookup('amazon.aws.aws_secret', 'UPLOADER_DB_PASS', bypath=true).UPLOADER_DB_PASS }}"
 
           - name: "DBUSER"
             value: "main_user"
@@ -35,7 +43,7 @@ publisher_service:
             value: "{{ tf_aurora_db_host }}"
 
           - name: "DBPORT"
-            value: 5432
+            value: "5432"
 
           - name: "INPUT_S3_BUCKET"
             value: "{{ tf_input_s3_bucket }}"

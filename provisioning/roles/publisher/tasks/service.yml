@@ -2,19 +2,21 @@
 
 - name: Set task_definition variable
   set_fact:
-    task_definition: "{{ publisher_service.task_definition }}"
+    td: "{{ publisher_service.task_definition }}"
 
 # create the task definition
 - name: Create the task definition
   community.aws.ecs_taskdefinition:
-    family: "{{ task_definition.family }}"
-    launch_type: "{{ task_definition.launch_type }}"
+    state: "present"
+    family: "{{ td.family }}"
+    launch_type: "{{ td.launch_type }}"
     network_mode: "awsvpc"
-    execution_role_arn: "{{ task_definition.execution_role_arn }}"
-    task_role_arn: "{{ task_definition.task_role_arn }}"
-    cpu: "{{ task_definition.cpu }}"
-    memory: "{{ task_definition.memory }}"
-    containers: "{{ task_definition.containers }}"
+    execution_role_arn: "{{ td.execution_role_arn }}"
+    task_role_arn: "{{ td.task_role_arn }}"
+    cpu: "{{ td.cpu }}"
+    memory: "{{ td.memory }}"
+    containers: "{{ td.containers }}"
+    region: "{{ aws_region }}"
   register: task_output
 
 - name: Print details Task name and revision
@@ -33,5 +35,6 @@
       subnets: "{{ publisher_service.subnets }}"
       security_groups: "{{ publisher_service.security_groups }}"
     load_balancers: "{{ publisher_service.load_balancers }}"
+    region: "{{ aws_region }}"
   register: service_output
 

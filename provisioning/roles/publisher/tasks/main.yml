@@ -1,4 +1,8 @@
 ---
 
+- name: Set ansible_python_interpreter
+  set_fact:
+    ansible_python_interpreter: "{{ venv_executable }}"
+
 # loop the services, to create the task definition and create the service
 - include_tasks: "service.yml"

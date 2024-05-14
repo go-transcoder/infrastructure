@@ -18,4 +18,5 @@ kafka_bootstrap_server_string: "dynamically_set_in_ci"
 
 
 ## this to be added dynamically from CI
-publisher_docker_image_url: "to-be-set-after-image-build"
+publisher_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_uploader:45fc47757736b8ed7d3cc056d0956b95e5718de0"
+aws_region: "us-east-1"
