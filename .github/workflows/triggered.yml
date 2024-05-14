@@ -73,13 +73,11 @@ jobs:
           pip install -r ./requirements.txt
 
       - name: Adding the ssh-key
+        uses: webfactory/ssh-agent@v0.9.0
         env:
           SSH_DEPLOY_KEY: ${{env.SSH_PRIVATE_KEY}}
-        run: |
-          touch .ansible_key
-          echo "$SSH_DEPLOY_KEY" > .ansible_key
-          echo "\r\n" >> .ansible_key
-          chmod 600 .ansible_key
+        with:
+            ssh-private-key: $SSH_DEPLOY_KEY
 
       - name: create the .vault_pass file
         env:
@@ -93,4 +91,4 @@ jobs:
           PLAYBOOK_TAGS: ${{inputs.tags}}
           PUBLISHER_IMAGE: ${{inputs.publisher_image}}
         run: |
-          ansible-playbook --vault-password-file .vault_pass --key-file .ansible_key -i provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
+          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
