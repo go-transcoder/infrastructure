@@ -76,11 +76,8 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{env.SSH_PRIVATE_KEY}}
         run: |
-          command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )
-          eval $(ssh-agent -s)
-          echo "$SSH_DEPLOY_KEY" | tr -d '\r' | ssh-add -
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+          touch private_key
+          echo "$SSH_DEPLOY_KEY" >> private_key
 
       - name: create the .vault_pass file
         env:
@@ -94,4 +91,4 @@ jobs:
           PLAYBOOK_TAGS: ${{inputs.tags}}
           PUBLISHER_IMAGE: ${{inputs.publisher_image}}
         run: |
-          ansible-playbook --vault-password-file .vault_pass -i  provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
+          ansible-playbook --vault-password-file .vault_pass --private-key -i private_key provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
