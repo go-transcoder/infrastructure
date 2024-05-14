@@ -4,7 +4,7 @@ run-name: provision the infrastructure
 on:
   push:
     branches:
-      - main
+      - cousa
 env:
   REGION: us-east-1
 

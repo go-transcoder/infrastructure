@@ -76,9 +76,9 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{env.SSH_PRIVATE_KEY}}
         run: |
-          touch ansible_key
+          touch .ansible_key
           echo "$SSH_DEPLOY_KEY" >> .ansible_key
-          ls
+          ls -a
 
       - name: create the .vault_pass file
         env:
