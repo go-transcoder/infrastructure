@@ -43,6 +43,7 @@ jobs:
 
       # debugging the tf_ansible_vars_file
       - run: |
+          ls ./provisioning/environments/
           cat ./provisioning/environments/tf_generated_vars.yml
 
       # login to aws to get secrets
