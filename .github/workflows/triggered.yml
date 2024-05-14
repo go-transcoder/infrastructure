@@ -82,10 +82,6 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
-
       - name: create the .vault_pass file
         env:
           VAULT_PASS: ${{env.VAULT_PASS}}
