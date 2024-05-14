@@ -29,11 +29,11 @@
     state: present
     name: publisher-service
     cluster: "{{ publisher_service.cluster }}"
+    launch_type: "{{ td.launch_type }}"
     task_definition: "{{  task_output.taskdefinition[\"family\"]   }}:{{ task_output.taskdefinition[\"revision\"] }}"
     desired_count: 1
-    network_configuration:
-      subnets: "{{ publisher_service.subnets }}"
-      security_groups: "{{ publisher_service.security_groups }}"
+    deployment_configuration: "{{ publisher_service.deployment_configuration }}"
+    network_configuration: "{{ publisher_service.network_configuration }}"
     load_balancers: "{{ publisher_service.load_balancers }}"
     region: "{{ aws_region }}"
   register: service_output

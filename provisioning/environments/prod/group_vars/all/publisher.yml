@@ -3,9 +3,13 @@
 publisher_service:
   cluster: "{{ tf_ecs_cluster }}"
   desired_count: 1
-  subnets: "{{ tf_private_subnets }}"
-  security_groups:
-    - "{{ tf_ecs_security_group_id }}"
+  network_configuration:
+    subnets: "{{ tf_private_subnets }}"
+    security_groups:
+      - "{{ tf_ecs_security_group_id }}"
+  deployment_configuration:
+    minimum_healthy_percent: 0
+    maximum_percent: 100
   load_balancers:
     - targetGroupArn: "{{ tf_publisher_load_balancer_target_group_arn }}"
       containerName: ours-main
