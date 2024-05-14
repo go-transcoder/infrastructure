@@ -39,7 +39,7 @@ jobs:
           name: tf_ansible_vars_file
           if_no_artifact_found: fail
           allow_forks: false
-          path: ./provisioning/environments/tf_generated_vars.yml
+          path: ./provisioning/environments
 
       # login to aws to get secrets
       - name: Configure AWS credentials
