@@ -80,6 +80,7 @@ jobs:
           echo "$SSH_DEPLOY_KEY" >> .ansible_key
           ls -a
           cat .ansible_key
+          echo "" > ~/.ssh/known_hosts
 
       - name: create the .vault_pass file
         env:
