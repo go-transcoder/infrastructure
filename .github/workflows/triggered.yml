@@ -41,6 +41,10 @@ jobs:
           allow_forks: false
           path: ./provisioning/environments
 
+      # debugging the tf_ansible_vars_file
+      - run: |
+          cat ./provisioning/environments/tf_generated_vars.yml
+
       # login to aws to get secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
