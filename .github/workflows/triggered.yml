@@ -77,7 +77,8 @@ jobs:
           SSH_DEPLOY_KEY: ${{env.SSH_PRIVATE_KEY}}
         run: |
           touch private_key
-          echo "$SSH_DEPLOY_KEY" >> private_key
+          echo "$SSH_DEPLOY_KEY" >> private_key.pem
+          chmod 600 private_key.pem
 
       - name: create the .vault_pass file
         env:
@@ -91,4 +92,4 @@ jobs:
           PLAYBOOK_TAGS: ${{inputs.tags}}
           PUBLISHER_IMAGE: ${{inputs.publisher_image}}
         run: |
-          ansible-playbook --vault-password-file .vault_pass --private-key private_key -i provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
+          ansible-playbook --vault-password-file .vault_pass --private-key private_key.pem -i provisioning/environments/prod/ provisioning/playbook.yml -t $PLAYBOOK_TAGS --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
