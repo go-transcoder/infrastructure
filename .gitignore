@@ -1,3 +1,4 @@
 .idea
 .vault_pass
 .env
+provisioning/environments/tf_generated_vars.yml
