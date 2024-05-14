@@ -67,6 +67,7 @@ jobs:
         run: |
           pip install botocore
           pip install boto3
+          which python
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -83,3 +84,4 @@ jobs:
             --tags "${{ inputs.tags }}"
             --inventory provisioning/environments/prod/
             --extra-vars "publisher_docker_image_url=${{inputs.publisher_image}}"
+            --version
