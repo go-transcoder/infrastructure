@@ -2,3 +2,4 @@
 .vault_pass
 .env
 provisioning/environments/tf_ansible_vars_file.yml
+.ansible_key
