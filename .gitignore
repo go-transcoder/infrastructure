@@ -1,4 +1,4 @@
 .idea
 .vault_pass
 .env
-provisioning/environments/tf_generated_vars.yml
+provisioning/environments/tf_ansible_vars_file.yml
