@@ -8,6 +8,8 @@ on:
         required: true
       publisher_image:
         description: 'The image if set is required if the tags is publisher'
+      transcoder_image:
+        description: 'The transcoder docker image path, is required if the tags is transcoder'
 
 env:
   REGION: us-east-1
