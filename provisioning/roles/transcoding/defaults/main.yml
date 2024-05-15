@@ -1,0 +1,15 @@
+---
+
+transcode_job_definition:
+  job_definition_name: ""
+  image: ""
+  state: ""
+  type: ""
+  vcpus: ""
+  memory: ""
+  attempts: ""
+  job_role_arn: ""
+  command: []
+  volumes: []
+  parameters: []
+  environment: []

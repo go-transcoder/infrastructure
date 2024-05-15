@@ -30,7 +30,7 @@ publisher_service:
         logConfiguration:
           logDriver: awslogs
           options:
-            awslogs-region: "{{ aws_region }}"
+            awslogs-region: "{{ tf_region }}"
             awslogs-group: "{{ tf_ecs_log_group }}"
             awslogs-stream-prefix: "publisher_service"
         environment:
@@ -38,7 +38,7 @@ publisher_service:
             value: "main_db"
 
           - name: "DBPASS"
-            value: "{{ lookup('amazon.aws.aws_secret', 'UPLOADER_DB_PASS', bypath=true).UPLOADER_DB_PASS }}"
+            value: "{{ publisher_db_pass }}"
 
           - name: "DBUSER"
             value: "main_user"
@@ -56,7 +56,7 @@ publisher_service:
             value: "{{ tf_kafka_brokers_urls }}"
 
           - name: "KAFKATOPIC"
-            value: "video-transcode-status"
+            value: "{{ kafka_topic }}"
 
           - name: "PORT"
             value: "4000"

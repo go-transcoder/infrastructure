@@ -16,7 +16,9 @@ db_host: "{{vault.postgres.url}}"
 # !important Put here to be overridden by the ansible command option -e
 kafka_bootstrap_server_string: "dynamically_set_in_ci"
 
+# kafka
+kafka_topic: video-transcode-status
 
 ## this to be added dynamically from CI
 publisher_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_uploader:45fc47757736b8ed7d3cc056d0956b95e5718de0"
-aws_region: "us-east-1"
+transcoder_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_uploader:45fc47757736b8ed7d3cc056d0956b95e5718de0"

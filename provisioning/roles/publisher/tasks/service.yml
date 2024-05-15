@@ -16,7 +16,7 @@
     cpu: "{{ td.cpu }}"
     memory: "{{ td.memory }}"
     containers: "{{ td.containers }}"
-    region: "{{ aws_region }}"
+    region: "{{ tf_region }}"
   register: task_output
 
 - name: Print details Task name and revision
@@ -35,6 +35,6 @@
     deployment_configuration: "{{ publisher_service.deployment_configuration }}"
     network_configuration: "{{ publisher_service.network_configuration }}"
     load_balancers: "{{ publisher_service.load_balancers }}"
-    region: "{{ aws_region }}"
+    region: "{{ tf_region }}"
   register: service_output
 

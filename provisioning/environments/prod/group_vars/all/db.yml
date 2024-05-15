@@ -7,12 +7,15 @@ postgresql_databases:
   - name: transcode_db
     state: present
 
+publisher_db_pass: "{{vault.postgres.users.publisher.password}}"
+transcoder_db_pass: "{{vault.postgres.users.transcoder.password}}"
+
 postgresql_users:
   - name: main_user
-    password: "{{vault.postgres.users.publisher.password}}"
+    password: "{{ publisher_db_pass }}"
 
   - name: transcode_user
-    password: "{{vault.postgres.users.transcoder.password}}"
+    password: "{{ transcoder_db_pass }}"
 
 postgresql_privs:
   - user: main_user

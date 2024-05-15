@@ -1,0 +1,41 @@
+---
+
+transcode_job_definition:
+  job_definition_name: "{{ tf_transcode_job_definition_name }}"
+  image: "{{ transcoder_docker_image_url }}"
+  state: present
+  type: container
+  vcpus: 1
+  memory: 1024
+  attempts: 3
+  job_role_arn: "{{ tf_transcode_job_definition_execution_role }}"
+  command: []
+  volumes: []
+  parameters: []
+  environment:
+    - name: INPUT_S3_BUCKET
+      value: "{{ tf_input_s3_bucket }}"
+
+    - name: AWS_REGION
+      value: "{{ tf_region }}"
+
+    - name: UPLOADER_APP_UPLOAD_PATH
+      value: /tmp
+
+    - name: KAFKAHOST
+      value: "{{ tf_kafka_brokers_urls }}"
+
+    - name: KAFKATOPIC
+      value: "{{ kafka_topic }}"
+
+    - name: DBUSER
+      value: transcode_user
+
+    - name: DBPASS
+      value: "{{ transcoder_db_pass }}"
+
+    - name: DBHOST
+      value: "{{ tf_aurora_db_host }}"
+
+    - name: DBNAME
+      value: transcode_db

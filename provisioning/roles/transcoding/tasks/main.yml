@@ -1,0 +1,17 @@
+---
+
+- name: Batch Job definition
+  batch_job_definition:
+    job_definition_name: "{{ transcode_job_definition.job_definition_name }}"
+    state: "{{ transcode_job_definition.state }}"
+    image: "{{ transcode_job_definition.image }}"
+    type: "{{ transcode_job_definition.type }}"
+    parameters: "{{ transcode_job_definition.parameters }}"
+    vcpus: "{{ transcode_job_definition.vcpus }}"
+    memory: "{{ transcode_job_definition.memory }}"
+    command: "{{ transcode_job_definition.command }}"
+    job_role_arn: "{{ transcode_job_definition.job_role_arn }}"
+    attempts: "{{ transcode_job_definition.attempts }}"
+    environment: "{{ transcode_job_definition.environment }}"
+    volumes: "{{ transcode_job_definition.volumes }}"
+  register: job_definition_create_result
