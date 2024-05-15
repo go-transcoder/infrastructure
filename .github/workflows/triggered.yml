@@ -90,5 +90,6 @@ jobs:
         env:
           PLAYBOOK_TAGS: ${{inputs.tags}}
           PUBLISHER_IMAGE: ${{inputs.publisher_image}}
+          TRANSCODER_IMAGE: ${{inputs.transcoder_image}}
         run: |
-          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t "$PLAYBOOK_TAGS" --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE"
+          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t "$PLAYBOOK_TAGS" --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE transcoder_docker_image_url="
