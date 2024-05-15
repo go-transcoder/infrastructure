@@ -17,6 +17,7 @@
     memory: "{{ td.memory }}"
     containers: "{{ td.containers }}"
     region: "{{ tf_region }}"
+    force_create: true
   register: task_output
 
 - name: Print details Task name and revision
