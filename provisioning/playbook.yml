@@ -16,3 +16,6 @@
 
     - role: publisher
       tags: [ 'never', 'publisher' ]
+
+    - role: transcoder
+      tags: [ 'never', 'transcoder' ]
