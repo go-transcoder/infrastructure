@@ -21,4 +21,4 @@ kafka_topic: video-transcode-status
 
 ## this to be added dynamically from CI
 publisher_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_uploader:45fc47757736b8ed7d3cc056d0956b95e5718de0"
-transcoder_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_uploader:45fc47757736b8ed7d3cc056d0956b95e5718de0"
+transcoder_docker_image_url: "023231733398.dkr.ecr.eu-north-1.amazonaws.com/my-transcoding-example_transcoder:d13aaaf573d599dbaced6ade2557fe12da78cafc"

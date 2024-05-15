@@ -1,7 +1,11 @@
 ---
 
+- name: Set ansible_python_interpreter
+  set_fact:
+    ansible_python_interpreter: "{{ venv_executable }}"
+
 - name: Batch Job definition
-  batch_job_definition:
+  community.aws.batch_job_definition:
     job_definition_name: "{{ transcode_job_definition.job_definition_name }}"
     state: "{{ transcode_job_definition.state }}"
     image: "{{ transcode_job_definition.image }}"
@@ -14,4 +18,5 @@
     attempts: "{{ transcode_job_definition.attempts }}"
     environment: "{{ transcode_job_definition.environment }}"
     volumes: "{{ transcode_job_definition.volumes }}"
+    region: "{{ tf_region }}"
   register: job_definition_create_result

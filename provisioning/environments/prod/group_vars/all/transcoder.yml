@@ -11,7 +11,7 @@ transcode_job_definition:
   job_role_arn: "{{ tf_transcode_job_definition_execution_role }}"
   command: []
   volumes: []
-  parameters: []
+  parameters: {}
   environment:
     - name: INPUT_S3_BUCKET
       value: "{{ tf_input_s3_bucket }}"
