@@ -84,5 +84,5 @@ runs:
           playbook_options_str+=" $option"
         done
         
-        echo "$playbook_options_str"
+        echo "ansible-playbook $playbook_options_str provisioning/playbook.yml"
         ansible-playbook "$playbook_options_str" provisioning/playbook.yml 
