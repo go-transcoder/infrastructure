@@ -1,0 +1,81 @@
+name: "Running the playbook"
+description: "Getting the necessary credentials from AWS secret manager for the ansible playbook, then run the playbook"
+inputs:
+  role-to-assume:
+    description: 'Role to assume in order to get the aws credentials'
+    required: true
+  aws-region:
+    description: 'AWS region also for credentials'
+    required: true
+  playbook-tags:
+    description: "Sometimes we want to run the playbook with specific tags"
+    required: false
+  extra-vars:
+    description: "Sometimes we want to run the playbook with extra vars"
+    required: false
+
+
+runs:
+  using: "composite"
+  steps:
+    # login to aws to get secrets
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+      with:
+        role-to-assume: ${{ inputs.role-to-assume }}
+        aws-region: ${{ inputs.aws-region }}
+
+    # Get the private key from secret manager
+    - name: Secrets Secrets Secrets ...
+      uses: aws-actions/aws-secretsmanager-get-secrets@v2
+      with:
+        secret-ids: |
+          SSH_PRIVATE_KEY, PIVOT_KEY
+          VAULT_PASS
+
+    # Setting up python
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+        cache-dependency-path: './requirements.txt'
+
+    - name: Installing necessary packages
+      env:
+        requirements: ./requirements.txt
+      run: |
+        pip install -r "$requirements"
+        ansible-galaxy collection install community.aws
+
+    - name: Adding the ssh-key
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{env.SSH_PRIVATE_KEY}}
+
+    - name: create the .vault_pass file
+      env:
+        VAULT_PASS: ${{env.VAULT_PASS}}
+      run: |
+        touch .vault_pass
+        echo "$VAULT_PASS" > .vault_pass
+
+    - name: Run the playbook
+      env:
+        PLAYBOOK_TAGS: ${{inputs.tags}}
+        EXTRA_VARS: ${{inputs.extra-vars}}
+      run: |
+        playbook_options=("--inventory" "./provisioning/environments/prod/" "--vault-password-file" ".vault_pass")
+        
+        if [ ! -z $PLAYBOOK_TAGS ]; then
+          playbook_options+=("--tags" "$PLAYBOOK_TAGS")
+        fi
+        
+        if [ ! -z "$EXTRA_VARS" ]; then
+          playbook_options+=("--extra-vars" "\"$EXTRA_VARS\"")
+        fi
+        
+        for option in "${playbook_options[@]}"; do
+          playbook_options_str+=" $option"
+        done
+        
+        ansible-playbook $playbook_options_str

@@ -12,7 +12,7 @@
       tags: [ 'postgresql' ]
 
     - role: kafka
-      tags: [ 'kafka' ]
+      tags: [ 'kafka', 'never' ]
 
     - role: publisher
       tags: [ 'never', 'publisher' ]

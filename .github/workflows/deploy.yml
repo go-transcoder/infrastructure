@@ -21,34 +21,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # login to aws to get secrets
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+      - name: Getting the artifact
+        uses: ./.github/tf_artifact
+
+      - name: Run Playbook
+        uses: ./github/playbook
         with:
           role-to-assume: ${{ secrets.ROLEARN }}
           aws-region: ${{ env.REGION }}
-
-      # Get the private key from secret manager
-      - name: Step name
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            SSH_PRIVATE_KEY, PIVOT_KEY
-            VAULT_PASS
-            MAIN_DB_PASS
-            KAFKA_BOOTSTRAP_STRING
-
-      - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          # Required, playbook filepath
-          playbook: provisioning/playbook.yml
-          # Optional, directory where playbooks live
-          directory: ./
-          # Optional, SSH private key
-          key: ${{env.SSH_PRIVATE_KEY}}
-          # Optional, encrypted vault password
-          vault_password: ${{env.VAULT_PASS}}
-          options: |
-            --inventory provisioning/environments/prod/
-            --extra-vars "main_db_pass=${{env.MAIN_DB_PASS}} kafka_bootstrap_server_string=${{env.KAFKA_BOOTSTRAP_STRING}}"

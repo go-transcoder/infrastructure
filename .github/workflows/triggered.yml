@@ -30,22 +30,7 @@ jobs:
           echo "${{ inputs.tags }}"
 
       - name: Getting the artifact
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          repo: "go-transcoder/IaC"
-          workflow: deploy.yml
-          workflow_search: false
-          workflow_conclusion: success
-          branch: main
-          name: tf_ansible_vars_file
-          if_no_artifact_found: fail
-          allow_forks: false
-          path: ./provisioning/environments
-
-      - name: Debugging the artifact
-        run: |
-          cat ./provisioning/environments/tf_ansible_vars_file.yml
+        uses: ./.github/tf_artifact
 
       # login to aws to get secrets
       - name: Configure AWS credentials
