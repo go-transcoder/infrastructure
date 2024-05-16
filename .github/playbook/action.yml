@@ -67,11 +67,11 @@ runs:
     - name: Run the playbook
       shell: bash
       env:
-        PLAYBOOK_TAGS: ${{inputs.tags}}
+        PLAYBOOK_TAGS: ${{inputs.playbook-tags}}
         EXTRA_VARS: ${{inputs.extra-vars}}
       run: |
         playbook_options=("--inventory" "./provisioning/environments/prod/" "--vault-password-file" ".vault_pass")
-        
+                
         if [ ! -z $PLAYBOOK_TAGS ]; then
           playbook_options+=("--tags" "$PLAYBOOK_TAGS")
         fi
@@ -84,4 +84,5 @@ runs:
           playbook_options_str+=" $option"
         done
         
+        echo "$playbook_options_str"
         ansible-playbook $playbook_options_str provisioning/playbook.yml

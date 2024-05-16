@@ -35,5 +35,5 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ROLEARN }}
           aws-region: ${{ env.REGION }}
-          playbook-tags: ${{inputs.tags}}
-          extra-vars: ${{inputs.extra-vars}}
+          playbook-tags: ${{ inputs.tags }}
+          extra-vars: ${{ inputs.extra-vars }}
