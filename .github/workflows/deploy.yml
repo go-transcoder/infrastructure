@@ -25,7 +25,7 @@ jobs:
         uses: ./.github/tf_artifact
 
       - name: Run Playbook
-        uses: ./github/playbook
+        uses: ./.github/playbook
         with:
           role-to-assume: ${{ secrets.ROLEARN }}
           aws-region: ${{ env.REGION }}
