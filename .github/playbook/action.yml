@@ -77,7 +77,7 @@ runs:
         fi
         
         if [ ! -z "$EXTRA_VARS" ]; then
-          playbook_options+=("--extra-vars=\"$EXTRA_VARS\"")
+          playbook_options+=("--extra-vars \"$EXTRA_VARS\"")
         fi
         
         for option in "${playbook_options[@]}"; do
