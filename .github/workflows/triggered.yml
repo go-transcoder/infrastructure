@@ -6,10 +6,8 @@ on:
       tags:
         description: 'String specifying the ansible tags to run seperated by comma'
         required: true
-      publisher_image:
-        description: 'The image if set is required if the tags is publisher'
-      transcoder_image:
-        description: 'The transcoder docker image path, is required if the tags is transcoder'
+      extra-vars:
+        description: 'Sometimes we might pass additional vars to be passed to the playbook'
 
 env:
   REGION: us-east-1
@@ -32,49 +30,10 @@ jobs:
       - name: Getting the artifact
         uses: ./.github/tf_artifact
 
-      # login to aws to get secrets
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+      - name: Run Playbook
+        uses: ./.github/playbook
         with:
           role-to-assume: ${{ secrets.ROLEARN }}
           aws-region: ${{ env.REGION }}
-
-      # Get the private key from secret manager
-      - name: Step name
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            SSH_PRIVATE_KEY, PIVOT_KEY
-            VAULT_PASS
-
-      # Setting up python
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-          cache: 'pip'
-          cache-dependency-path: './requirements.txt'
-
-      - name: Installing necessary packages
-        run: |
-          pip install -r ./requirements.txt
-          ansible-galaxy collection install community.aws
-
-      - name: Adding the ssh-key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-            ssh-private-key: ${{env.SSH_PRIVATE_KEY}}
-
-      - name: create the .vault_pass file
-        env:
-          VAULT_PASS: ${{env.VAULT_PASS}}
-        run: |
-          touch .vault_pass
-          echo "$VAULT_PASS" > .vault_pass
-
-      - name: Run the playbook
-        env:
-          PLAYBOOK_TAGS: ${{inputs.tags}}
-          PUBLISHER_IMAGE: ${{inputs.publisher_image}}
-          TRANSCODER_IMAGE: ${{inputs.transcoder_image}}
-        run: |
-          ansible-playbook --vault-password-file .vault_pass -i provisioning/environments/prod/ provisioning/playbook.yml -t "$PLAYBOOK_TAGS" --extra-vars "publisher_docker_image_url=$PUBLISHER_IMAGE transcoder_docker_image_url=$TRANSCODER_IMAGE"
+          playbook-tags: ${{inputs.tags}}
+          extra-vars: ${{inputs.extra-vars}}
