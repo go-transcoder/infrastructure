@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Getting the artifact
+      shell: bash
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
       with:
@@ -19,5 +20,6 @@ runs:
         path: ./provisioning/environments
 
     - name: Debugging the artifact
+      shell: bash
       run: |
         cat ./provisioning/environments/tf_ansible_vars_file.yml
