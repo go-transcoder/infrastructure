@@ -48,11 +48,13 @@ runs:
       run: |
         pip install -r "$requirements"
         ansible-galaxy collection install community.aws
+        ansible-galaxy collection install community.postgresql
 
     - name: Adding the ssh-key
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{env.SSH_PRIVATE_KEY}}
+        log-public-key: false
 
     - name: create the .vault_pass file
       shell: bash
