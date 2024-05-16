@@ -85,4 +85,4 @@ runs:
         done
         
         echo "$playbook_options_str"
-        ansible-playbook provisioning/playbook.yml $playbook_options_str
+        ansible-playbook provisioning/playbook.yml "$playbook_options_str"
