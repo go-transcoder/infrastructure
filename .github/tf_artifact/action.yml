@@ -5,7 +5,6 @@ runs:
   using: "composite"
   steps:
     - name: Getting the artifact
-      shell: bash
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
       with:
